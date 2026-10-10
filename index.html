@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лист до Діани</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============ БАЗА ============ */
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --bg-deep:    #07061a;
+    --bg-mid:     #100c2e;
+    --rose:       #ff6b9d;
+    --violet:     #8b5cf6;
+    --indigo:     #4f46e5;
+    --gold:       #f2c98a;
+    --text:       #ece9ff;
+    --text-soft:  #b9b3e0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg-deep);
+    color: var(--text);
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ============ ФОН І АНІМАЦІЯ ============ */
+  .bg {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    background:
+      radial-gradient(1200px 800px at 15% 10%, #1b1147 0%, transparent 60%),
+      radial-gradient(1000px 700px at 85% 20%, #2a0f3d 0%, transparent 62%),
+      radial-gradient(900px 900px at 50% 100%, #0d1038 0%, transparent 65%),
+      linear-gradient(160deg, #07061a 0%, #0d0a26 45%, #07061a 100%);
+  }
+
+  .blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.45;
+    z-index: -2;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .b1 {
+    width: 46vw; height: 46vw;
+    min-width: 320px; min-height: 320px;
+    top: -12%; left: -10%;
+    background: radial-gradient(circle at 30% 30%, #8b5cf6, transparent 70%);
+    animation: drift1 26s ease-in-out infinite;
+  }
+
+  .b2 {
+    width: 40vw; height: 40vw;
+    min-width: 280px; min-height: 280px;
+    top: 35%; right: -12%;
+    background: radial-gradient(circle at 60% 40%, #ff6b9d, transparent 70%);
+    animation: drift2 32s ease-in-out infinite;
+  }
+
+  .b3 {
+    width: 44vw; height: 44vw;
+    min-width: 300px; min-height: 300px;
+    bottom: -18%; left: 22%;
+    background: radial-gradient(circle at 50% 50%, #4f46e5, transparent 70%);
+    animation: drift3 38s ease-in-out infinite;
+  }
+
+  @keyframes drift1 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33%     { transform: translate(9vw, 7vh) scale(1.15); }
+    66%     { transform: translate(-5vw, 12vh) scale(0.92); }
+  }
+  @keyframes drift2 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    40%     { transform: translate(-11vw, -8vh) scale(1.18); }
+    70%     { transform: translate(-4vw, 9vh) scale(0.95); }
+  }
+  @keyframes drift3 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    45%     { transform: translate(8vw, -10vh) scale(1.12); }
+    75%     { transform: translate(-7vw, -4vh) scale(0.9); }
+  }
+
+  /* Тонка сітка поверх фону */
+  .grid-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+    background-size: 62px 62px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 20%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 20%, transparent 85%);
+    animation: gridShift 40s linear infinite;
+  }
+
+  @keyframes gridShift {
+    from { background-position: 0 0, 0 0; }
+    to   { background-position: 62px 62px, 62px 62px; }
+  }
+
+  /* ============ ЧАСТИНКИ ============ */
+  .particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    bottom: -10vh;
+    color: #ffd9e8;
+    text-shadow: 0 0 12px rgba(255,107,157,0.9);
+    animation-name: floatUp;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform, opacity;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(0) translateX(0) rotate(0deg);      opacity: 0; }
+    10%  { opacity: 1; }
+    50%  { transform: translateY(-55vh) translateX(28px) rotate(180deg); }
+    90%  { opacity: 1; }
+    100% { transform: translateY(-115vh) translateX(-22px) rotate(360deg); opacity: 0; }
+  }
+
+  /* ============ СМУГА ПРОГРЕСУ ============ */
+  .progress-track {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255,255,255,0.06);
+    z-index: 100;
+    backdrop-filter: blur(6px);
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--violet), var(--rose), var(--gold));
+    box-shadow: 0 0 14px rgba(255,107,157,0.8);
+    transition: width 0.12s linear;
+    border-radius: 0 3px 3px 0;
+  }
+
+  /* ============ КОНТЕЙНЕР ============ */
+  .wrap {
+    position: relative;
+    z-index: 2;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 78px 20px 90px;
+  }
+
+  /* ============ ШАПКА ============ */
+  .hero {
+    text-align: center;
+    padding: 30px 0 46px;
+    animation: fadeDown 1.2s cubic-bezier(.22,.9,.3,1) both;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-26px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 8px 20px;
+    font-size: 11px;
+    letter-spacing: 3.2px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--gold);
+    border: 1px solid rgba(242,201,138,0.32);
+    border-radius: 100px;
+    background: rgba(242,201,138,0.05);
+    box-shadow: 0 0 26px rgba(242,201,138,0.12) inset;
+    margin-bottom: 26px;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2.4rem, 7vw, 4.1rem);
+    font-weight: 600;
+    letter-spacing: 1px;
+    line-height: 1.1;
+    background: linear-gradient(115deg, #fff 0%, #ffc4dd 28%, #c4b5fd 58%, #f2c98a 100%);
+    background-size: 260% 260%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 9s ease-in-out infinite;
+    filter: drop-shadow(0 6px 30px rgba(255,107,157,0.28));
+  }
+
+  @keyframes shimmer {
+    0%,100% { background-position: 0% 50%; }
+    50%     { background-position: 100% 50%; }
+  }
+
+  .hero .sub {
+    margin-top: 16px;
+    font-size: 14.5px;
+    letter-spacing: 1.4px;
+    color: var(--text-soft);
+    font-weight: 300;
+  }
+
+  .ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 30px;
+    opacity: 0.75;
+  }
+
+  .ornament span {
+    height: 1px;
+    width: clamp(50px, 16vw, 120px);
+    background: linear-gradient(90deg, transparent, var(--rose), transparent);
+  }
+
+  .ornament i {
+    color: var(--rose);
+    font-style: normal;
+    font-size: 13px;
+    animation: pulseGlow 2.6s ease-in-out infinite;
+  }
+
+  @keyframes pulseGlow {
+    0%,100% { opacity: .45; transform: scale(1);   text-shadow: 0 0 6px rgba(255,107,157,.5); }
+    50%     { opacity: 1;   transform: scale(1.28); text-shadow: 0 0 20px rgba(255,107,157,1); }
+  }
+
+  .scroll-hint {
+    margin-top: 42px;
+    font-size: 22px;
+    color: var(--rose);
+    opacity: 0.85;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%,100% { transform: translateY(0);    opacity: .45; }
+    50%     { transform: translateY(11px); opacity: 1; }
+  }
+
+  /* ============ КАРТКА ЛИСТА ============ */
+  .card {
+    position: relative;
+    padding: clamp(28px, 5.5vw, 62px) clamp(22px, 5vw, 60px);
+    border-radius: 26px;
+    background: linear-gradient(150deg, rgba(28,22,62,0.72) 0%, rgba(14,11,38,0.82) 100%);
+    border: 1px solid rgba(255,255,255,0.09);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    box-shadow:
+      0 30px 80px -25px rgba(0,0,0,0.85),
+      0 0 0 1px rgba(255,255,255,0.03) inset,
+      0 0 90px -30px rgba(139,92,246,0.55);
+    overflow: hidden;
+    animation: cardIn 1.4s cubic-bezier(.22,.9,.3,1) 0.25s both;
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(40px) scale(0.975); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Світна рамка, що обертається */
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 28px;
+    padding: 1px;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0%,
+      rgba(255,107,157,0.85) 12%,
+      transparent 28%,
+      transparent 52%,
+      rgba(139,92,246,0.85) 64%,
+      transparent 80%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    animation: spinBorder 9s linear infinite;
+    pointer-events: none;
+    opacity: 0.75;
+  }
+
+  @keyframes spinBorder {
+    to { transform: rotate(360deg); }
+  }
+
+  /* М'яке світло всередині картки */
+  .card::after {
+    content: "";
+    position: absolute;
+    top: -55%;
+    left: -25%;
+    width: 80%;
+    height: 130%;
+    background: radial-gradient(circle, rgba(255,107,157,0.13), transparent 65%);
+    pointer-events: none;
+    animation: innerGlow 12s ease-in-out infinite;
+  }
+
+  @keyframes innerGlow {
+    0%,100% { transform: translate(0,0); opacity: .7; }
+    50%     { transform: translate(45%, 22%); opacity: 1; }
+  }
+
+  .card p {
+    position: relative;
+    z-index: 2;
+    font-size: clamp(15.5px, 1.85vw, 18px);
+    line-height: 2.05;
+    color: var(--text);
+    letter-spacing: 0.25px;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    margin-bottom: 1.55em;
+  }
+
+  .card p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Перша літера */
+  .card p:first-of-type::first-letter {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 3.1em;
+    line-height: 0.82;
+    float: left;
+    padding: 0.1em 0.14em 0 0;
+    font-weight: 600;
+    background: linear-gradient(135deg, #ff9ec4, #c4b5fd, #f2c98a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 14px rgba(255,107,157,0.5));
+  }
+
+  /* Плавна поява абзаців */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 1s cubic-bezier(.22,.9,.3,1),
+                transform 1s cubic-bezier(.22,.9,.3,1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ============ ПІДВАЛ ============ */
+  .footer {
+    margin-top: 52px;
+    text-align: center;
+    font-size: 12.5px;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: rgba(185,179,224,0.55);
+    font-weight: 300;
+    animation: fadeDown 1.6s ease 0.9s both;
+  }
+
+  .footer .heart {
+    display: inline-block;
+    color: var(--rose);
+    animation: beat 1.6s ease-in-out infinite;
+    margin: 0 8px;
+  }
+
+  @keyframes beat {
+    0%,100% { transform: scale(1);   }
+    25%     { transform: scale(1.3); }
+    40%     { transform: scale(1);   }
+    60%     { transform: scale(1.22);}
+  }
+
+  /* ============ СКРОЛБАР ============ */
+  html {
+    scrollbar-color: #8b5cf6 #0b0a1f;
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 11px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0b0a1f;
+    border-left: 1px solid rgba(255,255,255,0.05);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #8b5cf6, #ff6b9d, #f2c98a);
+    border-radius: 100px;
+    border: 2px solid #0b0a1f;
+    box-shadow: 0 0 12px rgba(255,107,157,0.6);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #a78bfa, #ff8fb6, #ffd9a0);
+  }
+
+  /* ============ АДАПТИВ ============ */
+  @media (max-width: 640px) {
+    .wrap { padding: 56px 14px 70px; }
+    .card { border-radius: 20px; }
+    .card p {
+      line-height: 1.92;
+      text-align: left;
+    }
+    .card p:first-of-type::first-letter {
+      font-size: 2.6em;
+    }
+    .hero { padding: 16px 0 34px; }
+    .badge { font-size: 9.5px; letter-spacing: 2.4px; padding: 7px 15px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- Смуга прогресу читання -->
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <!-- Анімований фон -->
+  <div class="bg"></div>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- Летючі частинки -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Контент -->
+  <main class="wrap">
+
+    <header class="hero">
+      <div class="badge">Приватне повідомлення</div>
+      <h1>Лист до Діани</h1>
+      <p class="sub">Те, що давно хотілося сказати</p>
+      <div class="ornament">
+        <span></span><i>✦</i><span></span>
+      </div>
+      <div class="scroll-hint">↓</div>
+    </header>
+
+    <article class="card" id="letter">
+
+      <p class="reveal">( Діано, я хочу тобі дещо сказати. Найперше, будь ласка, не сердься на мене ні за що і спробуй спокійно зрозуміти.</p>
+
+      <p class="reveal">Діано, справа в тому, що тепер я тебе боюся. Це не той страх, що ти мене поб’єш чи заподієш якусь шкоду. Цей страх… як мені тобі пояснити. З того часу, як ти мене заблокувала, і то з усіх своїх інстаграм-акаунтів, у моїй голові постійно крутиться думка, що для тебе заблокувати мене — це взагалі нічого особливого, що це просто нормально, і що, можливо, тобі буде легко мене забути. Дивись, Діано, я знаю, що ми вже рік у контакті, тож, можливо, у твоїх очах це все ж має якусь цінність. Ти знаєш, що я можу відкрито говорити з тобою про все, і іноді навіть надсилаю довгі повідомлення через програмування, щоб детально пояснити свою думку. Це правда, що зараз я боюся, бо не знаю, яке саме моє слово тобі може не сподобатися, і ти просто заблокуєш мене, навіть не подумавши й не розібравшись. Ти також знаєш, що між нами часто трапляються сварки, іноді навіть такі сильні, що ти на мене дуже злишся. Я добре розумію, що буде те, що буде. Тобто якщо ти вже наперед вирішила, що скоро заблокуєш Аяза, то хоч би що я казав і скільки б не сумував за тобою — тобі буде байдуже, ти просто мене заблокуєш. Я зовсім цього не хочу. І правда також у тому, що я не можу змусити тебе мене любити. Учора ввечері ти сказала, що заблокуєш мене тоді, коли сама цього захочеш, і також сказала: «Аязе, якщо в мене виникне підозра, що ти можеш мені нашкодити, я одразу тебе заблокую». Тобто ти маєш на увазі, що навіть через просту підозру ти можеш заблокувати мене й покінчити з дружбою. Хочу сказати прямо: я не хочу, щоб ти мене блокувала в будь-якій ситуації чи закінчувала зі мною дружбу. Я ніколи не зможу заподіяти тобі шкоди і навіть не думаю про таке. Ти — людина, яку я поважаю і яку люблю. Навіщо ж я буду тобі шкодити? Ти — та людина, з якою мені найкомфортніше. Ти — та дівчина, спілкування з якою приносить мені радість. Мені подобається робити для тебе що завгодно, навіть якщо це дасть тобі радість лише на мить. Навіщо ж я захочу заподіяти тобі шкоду? Ніколи.</p>
+
+      <p class="reveal">Мені здається, що ти дуже скоро мене заблокуєш, закінчиш зі мною дружбу і забудеш. Можливо, я так кажу, бо боюся, що ти вже втомилася від мене і просто більше не хочеш спілкуватися, або тобі все це вже набридло, або в тобі згасла цікавість до мене. Дивись, Діано, скільки б ти не казала, що Аяз гарний чи милий, ти сама добре знаєш, що ти набагато красивіша за мене і, можливо, заслуговуєш на хлопця, який у десять разів красивіший і кращий за мене, і який вміє з тобою гарно розмовляти. І ще одна важлива річ: моє життя крутиться в замкненому колі — школа, гуртожиток і плавання. Щодня одне й те саме. Немає ніяких турнірів і нічого такого, про що я міг би тобі розповісти, щоб тобі було цікаво слухати. Я кажу лише правду: це справді нудне життя, і, можливо, воно може набриднути й тобі. Я боюся, щоб ти з будь-якої причини не закінчила зі мною дружбу.</p>
+
+      <p class="reveal">Діано, ти — перша дівчина, з якою я зміг так добре спілкуватися, з якою мені було дуже комфортно. Мені найбільше подобається проводити з тобою час і розмовляти з тобою. І мій інтерес до тебе постійно зростає. Не лише тому, що ти красива, а через усі ті якості, які в тобі є: твоя краса, твоє добре серце, твоя мудрість, твоя зрілість, те, як ти мене розумієш, і ще багато іншого. Я не знаю… але я тебе дуже люблю. Можливо, ти мене не любиш так сильно, бо я багато балакаю, дратую тебе, надсилаю занадто багато повідомлень, постійно сперечаюся, і ще в мене це нікчемне обличчя… але хай уже. Діано, ти не така, як інші дівчата. Ти зовсім особлива, найкрасивіша. Якби я жив в Україні, я б показав тобі, скільки всього веселого ми могли б робити і як би ми насолоджувалися життям.</p>
+
+      <p class="reveal">Дивись, Діано, добре зрозумій цю річ. Тепер я боюся, що якщо між нами знову виникне якась суперечка, тобі не знадобиться багато часу, щоб мене заблокувати. Бо ти вже так робила. Ніби сильний порив вітру видув з тебе весь інтерес до мене. Я розумію, що наш зв’язок не настільки слабкий, щоб дружба закінчилася через якусь дрібницю, але все одно боюся, що ти справді мене заблокуєш. Також буває відчуття, що ти така мила й красива, і якщо в тебе з’явиться хлопець-українець, і він запитає, хто такий Аяз, і скаже тобі мене заблокувати — ти не зробиш цього лише заради нього чи через чиюсь просьбу. Діано, хоча б хай ми назавжди залишимося добрими друзями.</p>
+
+      <p class="reveal">Я хочу сказати: будь ласка, Діано, ніколи мене не блокуй. Я не хочу тебе втратити. Я завжди хочу залишатися твоїм найкращим другом. Якщо я зроблю якусь помилку — сердься, але ніколи не блокуй.</p>
+
+      <p class="reveal">Діано, вибач, що знову витратив твій час і змусив читати таке довге повідомлення.</p>
+
+      <p class="reveal">І яке б рішення ти не прийняла заради свого щастя — я завжди його поважаю. )</p>
+
+    </article>
+
+    <div class="footer">
+      Написано з душею<span class="heart">♥</span>для Діани
+    </div>
+
+  </main>
+
+<script>
+  /* ---------- Летючі частинки ---------- */
+  (function () {
+    const container = document.getElementById('particles');
+    const glyphs = ['✦', '·', '✧', '•', '❋'];
+    const isSmall = window.innerWidth < 700;
+    const COUNT = isSmall ? 22 : 42;
+
+    for (let i = 0; i < COUNT; i++) {
+      const el = document.createElement('span');
+      el.className = 'particle';
+      el.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+      el.style.left = (Math.random() * 100) + 'vw';
+      el.style.fontSize = (7 + Math.random() * 15) + 'px';
+      el.style.animationDuration = (14 + Math.random() * 20) + 's';
+      el.style.animationDelay = (-Math.random() * 34) + 's';
+      el.style.opacity = (0.12 + Math.random() * 0.38).toFixed(2);
+
+      const hue = Math.random();
+      if (hue < 0.45) {
+        el.style.color = '#ffd9e8';
+        el.style.textShadow = '0 0 12px rgba(255,107,157,0.9)';
+      } else if (hue < 0.8) {
+        el.style.color = '#d8ccff';
+        el.style.textShadow = '0 0 12px rgba(139,92,246,0.9)';
+      } else {
+        el.style.color = '#f7e3b8';
+        el.style.textShadow = '0 0 12px rgba(242,201,138,0.9)';
+      }
+
+      container.appendChild(el);
+    }
+  })();
+
+  /* ---------- Смуга прогресу читання ---------- */
+  (function () {
+    const fill = document.getElementById('progressFill');
+    let ticking = false;
+
+    function update() {
+      const doc = document.documentElement;
+      const scrollTop = window.pageYOffset || doc.scrollTop;
+      const height = doc.scrollHeight - doc.clientHeight;
+      const pct = height > 0 ? (scrollTop / height) * 100 : 0;
+      fill.style.width = pct.toFixed(2) + '%';
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    window.addEventListener('resize', update);
+    update();
+  })();
+
+  /* ---------- Плавна поява абзаців ---------- */
+  (function () {
+    const items = document.querySelectorAll('.reveal');
+
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('visible'); });
+      return;
+    }
+
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry, i) {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const delay = Math.min(i * 90, 360);
+          setTimeout(function () {
+            el.classList.add('visible');
+          }, delay);
+          observer.unobserve(el);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -60px 0px'
+    });
+
+    items.forEach(function (el) { observer.observe(el); });
+  })();
+
+  /* ---------- Легкий паралакс фону ---------- */
+  (function () {
+    const blobs = document.querySelectorAll('.blob');
+    let ticking = false;
+
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+
+      window.requestAnimationFrame(function () {
+        const y = window.pageYOffset;
+        blobs.forEach(function (b, i) {
+          const speed = (i + 1) * 0.035;
+          b.style.marginTop = (-y * speed) + 'px';
+        });
+        ticking = false;
+      });
+    }, { passive: true });
+  })();
+</script>
+
+</body>
+</html>
